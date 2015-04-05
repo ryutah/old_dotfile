@@ -1,5 +1,5 @@
 """"""""""""""""""""""""""""""""""""""""""""""""
-" プラグインセットアップ　NeoBundler
+" プラグインセットアップ NeoBundler
 """"""""""""""""""""""""""""""""""""""""""""""""
 if has('vim_starting')
  if &compatible
@@ -60,8 +60,14 @@ NeoBundle "scrooloose/syntastic"
 NeoBundle "vim-scripts/taglist.vim"
 " シンタックスハイライト https://github.com/joker1007/vim-ruby-heredoc-syntax
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
-" gradleシンタックスハイライトhttps://github.com/tfnico/vim-gradle
+" gradleシンタックスハイライト https://github.com/tfnico/vim-gradle
 NeoBundle 'tfnico/vim-gradle'
+" カラーテーマ https://github.com/w0ng/vim-hybrid
+NeoBundle 'w0ng/vim-hybrid'
+" カラーテーマ https://github.com/nanotech/jellybeans.vim
+NeoBundle 'nanotech/jellybeans.vim'
+" HTMLコーディング補助 https://github.com/mattn/emmet-vim
+NeoBundle 'mattn/emmet-vim'
 
 call neobundle#end()
 
@@ -80,7 +86,7 @@ let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"   " ctagsのコマンド
 let Tlist_Show_One_File = 1                    " 現在表示中のファイルのみのタグしか表示しない
 let Tlist_Use_Right_Window = 1                 " 右側にtag listのウインドうを表示する
 let Tlist_Exit_OnlyWindow = 1                  " taglistのウインドウだけならVimを閉じる
-map <silent> <leader>l :TlistToggle<CR>       
+map <silent> <leader>l :TlistToggle<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
@@ -209,7 +215,7 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
-" caw.vim 設定 
+" caw.vim 設定
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " コメントアウトを切り替えるマッピング
 " \c でカーソル行をコメントアウト
@@ -264,19 +270,41 @@ unlet s:hook
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " 共通設定
 """""""""""""""""""""""""""""""""""""""""""""""""""
-" タブ文字の長さ
-set tabstop=2
-set shiftwidth=2
+set tabstop=2                       " タブ文字の長さ
+set shiftwidth=2                    " 自動挿入されるインデントのスペース
+set softtabstop=0                   " tabキーを押した時のスペース量
+set expandtab                       " タブをスペースに変換する
+set nobackup                        " バックアップファイルを生成しない
+set showcmd                         " 入力中のコマンドを表示する
+set clipboard=unnamed,autoselect    " ヤンクなどにクリップボードを使用する
+set number                          " 行番号の表示
+" カラースキーマの設定
+set t_Co=256
+colorscheme jellybeans
+" タブ、空白、改行の可視化
+set list
+set listchars=tab:>.,trail:_,eol:↲,extends:>,precedes:<,nbsp:%
+" 全角スペースをハイライト表示
+function! ZenkakuSpace()
+    highlight ZenkakuSpace cterm=reverse ctermfg=DarkMagenta gui=reverse guifg=DarkMagenta
+endfunction
 
-" 空白文字ではなくタブ文字を使用する
-set noexpandtab
-
+if has('syntax')
+    augroup ZenkakuSpace
+        autocmd!
+        autocmd ColorScheme       * call ZenkakuSpace()
+        autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
+    augroup END
+    call ZenkakuSpace()
+endif
+" 行末のスペースを取り除く
+autocmd BufWritePre * :%s/\s\+$//ge
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " C++ 用設定
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " filetype=cpp が設定された時に呼ばれる関数
-"Vim で C++ の設定を行う場合はこの関数内で記述する
+" Vim で C++ の設定を行う場合はこの関数内で記述する
 " ここで設定する項目は各自好きに行って下さい
 function! s:cpp()
     " インクルードパスを設定する
