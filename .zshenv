@@ -4,6 +4,9 @@ export PATH="/home/ryuta/Programs/activator:$PATH"
 # AndroidADB
 export PATH="/home/ryuta/Android/android-sdk-linux/platform-tools:$PATH"
 export PATH="/home/ryuta/Android/android-sdk-linux/tools:$PATH"
+export PATH="/usr/local/go/bin:$PATH"
+
+export GOPATH="$HOME/go"
 # export PATH="/home/ryuta/.nvm/v0.11.14/bin:$PATH"
 
 eval "$(rbenv init -)"
