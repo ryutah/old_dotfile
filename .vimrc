@@ -19,6 +19,10 @@ NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/neoyank.vim'
 " テーマ
 NeoBundle 'nanotech/jellybeans.vim'
+NeoBundle 'vim-scripts/twilight'
+NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'ujihisa/unite-colorscheme'
+
 " スニペット
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
@@ -75,6 +79,10 @@ NeoBundle 'Shougo/neocomplcache-rsense.vim', {
 " ドキュメント参照
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'yuku-t/vim-ref-ri'
+" rubocop
+NeoBundle 'ngmy/vim-rubocop'
+" Vimでシェルを使う
+NeoBundle 'Shougo/vimshell.vim'
 
 call neobundle#end()
 
@@ -101,6 +109,8 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" 共通設定
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set clipboard=unnamed,autoselect
+
 set keywordprg=:help " Open Vim internal help by K command
 "タブ文字の長さ
 set tabstop=2
@@ -145,7 +155,10 @@ set fileencodings+=utf-8,euc-jp,iso-2022-jp,ucs-2le,ucs-2,euc-jp,cp932
 
 filetype plugin indent on  " restore filetype
 syntax on
-colorscheme jellybeans
+set background=dark
+colorscheme hybrid
+" colorscheme jellybeans
+" colorscheme twilight
 NeoBundleCheck
 if has('win32') || has ('win64')
   set iminsert=0
@@ -203,8 +216,10 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list            = 1
-let g:syntastic_check_on_open            = 1
+let g:syntastic_check_on_open            = 0
 let g:syntastic_check_on_wq              = 0
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
+let g:syntastic_ruby_checkers=['rubocop', 'mri']
 
 highlight SyntasticError guibg=#F9B3F9
 highlight SyntasticWarning guibg=#F9B3F9
@@ -429,9 +444,16 @@ let g:rsenseUseOmniFunc = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" コマンド 設定
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <Space><Space> :<C-u>Unite -start-insert file_rec/async<CR>
+" 基本マッピング
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j
+nnoremap gk k
+noremap <S-h> ^
+noremap <S-l> $
 
 " Unite系
+nnoremap <Space><Space> :<C-u>Unite -start-insert file_rec/async<CR>
 nnoremap [unite] <Nop>
 nmap     <Space>u [unite]
 nnoremap <silent> [unite]y :Unite history/yank<CR>
@@ -441,6 +463,8 @@ nnoremap <silent> [unite]f :Unite file_mru<CR>
 nnoremap <silent> [unite]g :Unite grep<CR>
 nnoremap <silent> [unite]o :Unite outline<CR>
 nnoremap <silent> [unite]r <Plug>(unite_restart)
+nnoremap <silent> [unite]ri :Unite ref/ri<CR>
+nnoremap <silent> [unite]cs :Unite colorscheme -auto-preview<CR>
 
 " タブ系
 nnoremap [tab] <Nop>
@@ -453,6 +477,12 @@ nnoremap <silent> [tab]h :tabprevious<CR>
 nnoremap [NERDTree] <Nop>
 nmap     <Space>n [NERDTree]
 nnoremap <silent> [NERDTree]t :NERDTree<CR>
+
+" vimshell
+nnoremap [Vimshell] <Nop>
+nmap     <Space>v [Vimshell]
+nnoremap <silent> [Vimshell]s :VimShell<CR>
+nnoremap <silent> [Vimshell]p :VimShellInteractive pry<CR>
 
 " Ag
 " カーソルの下の文字をgrep検索
@@ -480,3 +510,37 @@ nmap <C-n> <Plug>(yankround-next)
 " neosnippet
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" neocompleteとsmartinputの<CR>競合解決用
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if neobundle#tap('vim-smartinput')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'insert' : 1
+        \   }
+        \ })
+
+  function! neobundle#tapped.hooks.on_post_source(bundle)
+    call smartinput_endwise#define_default_rules()
+  endfunction
+
+  call neobundle#untap()
+endif
+
+
+if neobundle#tap('vim-smartinput-endwise')
+  function! neobundle#tapped.hooks.on_post_source(bundle)
+    " neosnippet and neocomplete compatible
+    call smartinput#map_to_trigger('i', '<Plug>(vimrc_cr)', '<Enter>', '<Enter>')
+    call smartinput#map_to_trigger('i', '<Plug>(vimrc_bs)', '<BS>', '<BS>')
+    imap <expr><CR> !pumvisible() ? "\<Plug>(vimrc_cr)" :
+          \ neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" :
+          \ neocomplete#close_popup()
+    imap <expr> <BS>
+          \ neocomplete#smart_close_popup() . "\<Plug>(vimrc_bs)"
+  endfunction
+  call neobundle#untap()
+endif
