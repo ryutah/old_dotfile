@@ -83,6 +83,8 @@ NeoBundle 'yuku-t/vim-ref-ri'
 NeoBundle 'ngmy/vim-rubocop'
 " Vimでシェルを使う
 NeoBundle 'Shougo/vimshell.vim'
+" VimのRubyプラグインが最新ではない可能性があるため
+NeoBundle 'vim-ruby/vim-ruby'
 
 call neobundle#end()
 
@@ -136,6 +138,7 @@ autocmd BufWritePre * :%s/\t/  /ge
 set list
 set listchars=tab:>.,trail:_,eol:↲,extends:>,precedes:<,nbsp:%
 set undodir=C:\Users\ryuta\.vim\undo
+set tags+=.git/tags
 
 "全角スペースをハイライト表示
 function! ZenkakuSpace()
@@ -346,6 +349,13 @@ nmap \C <Plug>(caw:I:uncomment)
 vmap \C <Plug>(caw:I:uncomment)
 
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" Ruby用設定
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd FileType ruby setl iskeyword+=?
+autocmd FileType ruby setl iskeyword+=!
+
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" C++用設定
@@ -359,8 +369,8 @@ function! s:cpp()
   setlocal path+=C:\MinGW\lib\gcc\mingw32\4.8.1\include\c++
 
   "タブ文字の長さ
-  "     setlocal tabstop=4
-  "     setlocal shiftwidth=4
+      setlocal tabstop=4
+      setlocal shiftwidth=4
 
   " 空白文字ではなくてタブ文字を使用する
   "     setlocal noexpandtab
