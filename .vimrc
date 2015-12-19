@@ -218,7 +218,7 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list            = 1
+let g:syntastic_auto_loc_list            = 0
 let g:syntastic_check_on_open            = 0
 let g:syntastic_check_on_wq              = 0
 let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
@@ -451,6 +451,16 @@ endtry
 " let g:rsenseHome        = "C:\PG\rsense-0.3"
 let g:rsenseUseOmniFunc = 1
 
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" rsense
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:gitgutter_enabled = 0
+let g:gitgutter_highlight_lines = 1
+
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" コマンド 設定
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -469,7 +479,7 @@ nmap     <Space>u [unite]
 nnoremap <silent> [unite]y :Unite history/yank<CR>
 nnoremap <silent> [unite]b :Unite buffer<CR>
 nnoremap <silent> [unite]t :Unite tab<CR>
-nnoremap <silent> [unite]f :Unite file_mru<CR>
+nnoremap <silent> [unite]m :Unite file_mru<CR>
 nnoremap <silent> [unite]g :Unite grep<CR>
 nnoremap <silent> [unite]o :Unite outline<CR>
 nnoremap <silent> [unite]r <Plug>(unite_restart)
@@ -477,11 +487,19 @@ nnoremap <silent> [unite]ri :Unite ref/ri<CR>
 nnoremap <silent> [unite]cs :Unite colorscheme -auto-preview<CR>
 
 " タブ系
-nnoremap [tab] <Nop>
-nmap     <Space>t [tab]
-nnoremap <silent> [tab]n :tabnew<CR>
-nnoremap <silent> [tab]l :tabNext<CR>
-nnoremap <silent> [tab]h :tabprevious<CR>
+nnoremap <silent> tn :tabnew<CR>
+nnoremap <silent> tl :tabnext<CR>
+nnoremap <silent> th :tabprevious<CR>
+
+" 画面分割系
+nnoremap [split] <Nop>
+nmap <Space>s [split]
+nnoremap <silent> [split]v :vsplit<CR>
+nnoremap <silent> [split]i :split<CR>
+nnoremap <silent> [split]l <C-w>l
+nnoremap <silent> [split]h <C-w>h
+nnoremap <silent> [split]j <C-w>j
+nnoremap <silent> [split]k <C-w>k
 
 " NERDTree
 nnoremap [NERDTree] <Nop>
@@ -521,6 +539,13 @@ nmap <C-n> <Plug>(yankround-next)
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 
+" QuickFix
+nnoremap [quickfix] <Nop>
+nmap     <Space>q [quickfix]
+nnoremap <silent> [quickfix]e :Errors<CR>
+nnoremap <silent> [quickfix]l :lclose<CR>
+" nnoremap <silent> [quickfix]c :ll<CR>:cc<CR>
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -539,7 +564,6 @@ if neobundle#tap('vim-smartinput')
 
   call neobundle#untap()
 endif
-
 
 if neobundle#tap('vim-smartinput-endwise')
   function! neobundle#tapped.hooks.on_post_source(bundle)
