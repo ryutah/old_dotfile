@@ -22,6 +22,7 @@ NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'vim-scripts/twilight'
 NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'ujihisa/unite-colorscheme'
+NeoBundle 'jpo/vim-railscasts-theme'
 
 " スニペット
 NeoBundle 'Shougo/neosnippet'
@@ -85,6 +86,13 @@ NeoBundle 'ngmy/vim-rubocop'
 NeoBundle 'Shougo/vimshell.vim'
 " VimのRubyプラグインが最新ではない可能性があるため
 NeoBundle 'vim-ruby/vim-ruby'
+" インデントハイライトプラグイン
+NeoBundle 'nathanaelkane/vim-indent-guides'
+" coffescrptハイライト
+NeoBundle 'kchmck/vim-coffee-script'
+
+" vim-rails
+NeoBundle 'tpope/vim-rails'
 
 call neobundle#end()
 
@@ -159,7 +167,8 @@ set fileencodings+=utf-8,euc-jp,iso-2022-jp,ucs-2le,ucs-2,euc-jp,cp932
 filetype plugin indent on  " restore filetype
 syntax on
 set background=dark
-colorscheme hybrid
+colorscheme railscasts
+" colorscheme hybrid
 " colorscheme jellybeans
 " colorscheme twilight
 NeoBundleCheck
@@ -221,7 +230,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list            = 0
 let g:syntastic_check_on_open            = 0
 let g:syntastic_check_on_wq              = 0
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
+" let g:syntastic_mode_map = { 'mode': 'passive' }
+let g:syntastic_mode_map = { 'mode': 'active' }
 let g:syntastic_ruby_checkers=['rubocop', 'mri']
 
 highlight SyntasticError guibg=#F9B3F9
@@ -352,9 +362,18 @@ vmap \C <Plug>(caw:I:uncomment)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Ruby用設定
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd FileType ruby setl iskeyword+=?
-autocmd FileType ruby setl iskeyword+=!
+function! s:rb()
+  autocmd FileType ruby setl iskeyword+=?
+  autocmd FileType ruby setl iskeyword+=!
+  " syntax highlightで遅くなるのを防ぐ？
+  " set re=0
+endfunction
 
+augroup vimrc-rb
+  autocmd!
+  " filetype=rb が設定された場合に関数を呼ぶ
+  autocmd FileType ruby call s:rb()
+augroup END
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -460,6 +479,17 @@ let g:gitgutter_enabled = 0
 let g:gitgutter_highlight_lines = 1
 
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" vim-indent-guides設定
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" set ts=4 sw=4 et
+let g:indent_guides_auto_colors=0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd   ctermbg=235
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  ctermbg=236
+let g:indent_guides_enable_on_vim_startup=0
+let g:indent_guides_guide_start_level=2
+let g:indent_guides_guide_size=1
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" コマンド 設定
@@ -477,10 +507,10 @@ nnoremap <Space><Space> :<C-u>Unite -start-insert file_rec/async<CR>
 nnoremap [unite] <Nop>
 nmap     <Space>u [unite]
 nnoremap <silent> [unite]y :Unite history/yank<CR>
-nnoremap <silent> [unite]b :Unite buffer<CR>
+nnoremap <silent> [unite]b :Unite -start-insert  buffer<CR>
 nnoremap <silent> [unite]t :Unite tab<CR>
-nnoremap <silent> [unite]m :Unite file_mru<CR>
-nnoremap <silent> [unite]g :Unite grep<CR>
+nnoremap <silent> [unite]m :Unite -start-insert file_mru<CR>
+nnoremap <silent> [unite]g :Unite -start-insert grep<CR>
 nnoremap <silent> [unite]o :Unite outline<CR>
 nnoremap <silent> [unite]r <Plug>(unite_restart)
 nnoremap <silent> [unite]ri :Unite ref/ri<CR>
@@ -490,6 +520,7 @@ nnoremap <silent> [unite]cs :Unite colorscheme -auto-preview<CR>
 nnoremap <silent> tn :tabnew<CR>
 nnoremap <silent> tl :tabnext<CR>
 nnoremap <silent> th :tabprevious<CR>
+nnoremap <silent> tx :tabclose<CR>
 
 " 画面分割系
 nnoremap [split] <Nop>
@@ -539,12 +570,21 @@ nmap <C-n> <Plug>(yankround-next)
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 
-" QuickFix
+" QuickFix/Syntastic
 nnoremap [quickfix] <Nop>
-nmap     <Space>q [quickfix]
+nmap     <Space>e [quickfix]
 nnoremap <silent> [quickfix]e :Errors<CR>
 nnoremap <silent> [quickfix]l :lclose<CR>
+nnoremap <silent> [quickfix]c :SyntasticCheck<CR>
+nnoremap <silent> [quickfix]r :SyntasticReset<CR>
 " nnoremap <silent> [quickfix]c :ll<CR>:cc<CR>
+
+" vim-indent-guides
+nnoremap [indent-guide] <Nop>
+nmap     <Space>i [indent-guide]
+nnoremap <silent> [indent-guide]e :IndentGuidesEnable<CR>
+nnoremap <silent> [indent-guide]d :IndentGuidesDisable<CR>
+nnoremap <silent> [indent-guide]t :IndentGuidesToggle<CR>
 
 
 
