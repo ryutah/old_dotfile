@@ -1,0 +1,20 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" smartinput-endwise
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-smartinput-endwiseの呼び出し
+call smartinput_endwise#define_default_rules()
+
+"neocompleteとsmartinputの<CR>競合解決用
+if neobundle#tap('vim-smartinput-endwise')
+  function! neobundle#tapped.hooks.on_post_source(bundle)
+    " neosnippet and neocomplete compatible
+    call smartinput#map_to_trigger('i', '<Plug>(vimrc_cr)', '<Enter>', '<Enter>')
+    call smartinput#map_to_trigger('i', '<Plug>(vimrc_bs)', '<BS>', '<BS>')
+    imap <expr><CR> !pumvisible() ? "\<Plug>(vimrc_cr)" :
+          \ neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" :
+          \ neocomplete#close_popup()
+    imap <expr> <BS>
+          \ neocomplete#smart_close_popup() . "\<Plug>(vimrc_bs)"
+  endfunction
+  call neobundle#untap()
+endif

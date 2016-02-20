@@ -1,5 +1,13 @@
-set guifont=Ricty\ 15
-set guifontwide=Ricty\ 15
-" colorscheme twilight
-let g:indent_guides_auto_colors=1
+source $VIMRUNTIME/delmenu.vim
+set langmenu=ja_jp.utf-8
+source $VIMRUNTIME/menu.vim
 
+if has('win32') || has ('win64')
+  source $VIMRUNTIME/delmenu.vim
+  set langmenu=ja_jp.utf-8
+  source $VIMRUNTIME/menu.vim
+endif
+
+" colorscheme jellybeans
+set background=dark
+colorscheme hybrid

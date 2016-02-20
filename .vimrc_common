@@ -1,0 +1,103 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" 共通設定
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" 履歴取得数
+let g:yankround_max_history = 500
+
+set encoding=utf-8
+
+if has('kaoriya')
+  " Windowsの場合はコメントアウト外す
+  set fileencoding=cp932
+  set termencoding=cp932
+else
+  " Linuxの場合はコメントアウトを外す
+  set fileencoding=utf-8
+  set termencoding=utf-8
+  " Windowsの場合はオフにするといいかも
+  set t_Co=256
+endif
+
+set clipboard=unnamed,autoselect
+
+set keywordprg=:help " Open Vim internal help by K command
+"タブ文字の長さ
+set tabstop=2
+set shiftwidth=2
+
+" 空白文字ではなくてタブ文字を使用する
+set noexpandtab
+filetype plugin on
+
+" 検索結果ハイライト
+set hlsearch
+" バックアップ(ファイル名~)を作成しない
+set nobackup
+" クリップボードにヤンク
+set clipboard=unnamed,autoselect
+" 行番号の表示
+set number
+" 行末のスペースを削除
+autocmd BufWritePre * :%s/\s\+$//ge
+" 保存時にタブをスペースに変換
+autocmd BufWritePre * :%s/\t/  /ge
+
+set list
+set listchars=tab:>.,trail:_,eol:↲,extends:>,precedes:<,nbsp:%
+set undodir=C:\Users\ryuta\.vim\undo
+set tags+=.git/tags
+
+"全角スペースをハイライト表示
+function! ZenkakuSpace()
+    highlight ZenkakuSpace cterm=reverse ctermfg=DarkMagenta gui=reverse guifg=DarkMagenta
+endfunction
+
+if has('syntax')
+    augroup ZenkakuSpace
+        autocmd!
+        autocmd ColorScheme       * call ZenkakuSpace()
+        autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
+    augroup END
+    call ZenkakuSpace()
+endif
+
+set fileencodings+=utf-8,euc-jp,iso-2022-jp,ucs-2le,ucs-2,euc-jp,cp932
+
+filetype plugin indent on  " restore filetype
+syntax on
+set background=dark
+if has('kaoriya')
+  colorscheme ron
+else
+  colorscheme railscasts
+endif
+" colorscheme hybrid
+" colorscheme jellybeans
+" colorscheme twilight
+NeoBundleCheck
+if has('win32') || has ('win64')
+  set iminsert=0
+  set imsearch=0
+endif
+
+if has('kaoriya')
+  let g:no_vimrc_example    = 0
+  let g:vimrc_local_finish  = 1
+  let g:gvimrc_local_finish = 1
+
+  "$VIM/plugins/kaoriya/autodate.vim
+  let plugin_autodate_disable  = 1
+  "$VIM/plugins/kaoriya/cmdex.vim
+  let plugin_cmdex_disable     = 1
+  "$VIM/plugins/kaoriya/dicwin.vim
+  let plugin_dicwin_disable    = 1
+  "$VIMRUNTIME/plugin/format.vim
+  let plugin_format_disable    = 1
+  "$VIM/plugins/kaoriya/hz_ja.vim
+  let plugin_hz_ja_disable     = 1
+  "$VIM/plugins/kaoriya/scrnmode.vim
+  let plugin_scrnmode_disable  = 1
+  "$VIM/plugins/kaoriya/verifyenc.vim
+  let plugin_verifyenc_disable = 1
+endif

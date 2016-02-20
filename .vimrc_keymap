@@ -1,0 +1,108 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" コマンド 設定
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 基本マッピング
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j
+nnoremap gk k
+nnoremap <S-j> }
+nnoremap <S-k> {
+noremap <S-h> ^
+noremap <S-l> $
+
+" Unite系
+nnoremap <Space><Space> :UniteClose<CR> :<C-u>Unite -start-insert file_rec/async<CR>
+nnoremap [unite] <Nop>
+nmap     <Space>u [unite]
+nnoremap <silent> [unite]y  :UniteClose<CR> :Unite history/yank<CR>
+nnoremap <silent> [unite]b  :UniteClose<CR> :Unite -start-insert buffer<CR>
+nnoremap <silent> [unite]t  :UniteClose<CR> :Unite -start-insert tab<CR>
+nnoremap <silent> [unite]m  :UniteClose<CR> :Unite -start-insert file_mru<CR>
+nnoremap <silent> [unite]g  :UniteClose<CR> :Unite -start-insert grep<CR>
+nnoremap <silent> [unite]o  :UniteClose<CR> :Unite -vertical -direction=botright -winwidth=40 -no-quit outline<CR>
+nnoremap <silent> [unite]r  :UniteClose<CR> <Plug>(unite_restart)
+nnoremap <silent> [unite]ri :UniteClose<CR> :Unite ref/ri<CR>
+nnoremap <silent> [unite]cs :UniteClose<CR> :Unite colorscheme -auto-preview<CR>
+
+" タブ系
+nnoremap <silent> tn :tabnew<CR>
+nnoremap <silent> tl :tabnext<CR>
+nnoremap <silent> th :tabprevious<CR>
+nnoremap <silent> tx :tabclose<CR>
+
+" 画面分割系
+nnoremap [split] <Nop>
+nmap <Space>s [split]
+nmap ,s [split]
+nnoremap <silent> [split]v :vsplit<CR>
+nnoremap <silent> [split]i :split<CR>
+nnoremap <silent> [split]l <C-w>l
+nnoremap <silent> [split]h <C-w>h
+nnoremap <silent> [split]j <C-w>j
+nnoremap <silent> [split]k <C-w>k
+nnoremap <silent> [split]w <C-w>w
+nnoremap <silent> [split]o <C-w>=
+nnoremap <silent> [split]> 10<C-w>>
+nnoremap <silent> [split]< 10<C-w><
+nnoremap <silent> [split]+ 10<C-w>+
+nnoremap <silent> [split]- 10<C-u>-
+
+" NERDTree
+nnoremap [NERDTree] <Nop>
+nmap     <Space>n [NERDTree]
+nnoremap <silent> [NERDTree]t :NERDTree<CR>
+
+" vimshell
+nnoremap [Vimshell] <Nop>
+nmap     <Space>v [Vimshell]
+nnoremap <silent> [Vimshell]s :VimShell<CR>
+nnoremap <silent> [Vimshell]p :VimShellInteractive pry<CR>
+
+" Ag
+" カーソルの下の文字をgrep検索
+nmap     <space>< :Ag! <c-r>=expand("<cword>")<cr><cr>
+nnoremap <space>/ :Ag!
+
+" Easy align interactive
+vnoremap <silent> <Enter> :EasyAlign<cr>
+
+" gitgutter
+nnoremap [gitgutter] <Nop>
+nmap     <Space>g [gitgutter]
+nnoremap <silent> [gitgutter]g :<C-u>GitGutterToggle<CR>
+nnoremap <silent> [gitgutter]h :<C-u>GitGutterLineHighlightsToggle<CR>
+
+" オムニ補完
+imap <C-f> <C-x><C-o>
+
+" yankround
+nmap p <Plug>(yankround-p)
+nmap P <Plug>(yankround-P)
+nmap <C-p> <Plug>(yankround-prev)
+nmap <C-n> <Plug>(yankround-next)
+
+" neosnippet
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+
+" QuickFix/Syntastic
+nnoremap [quickfix] <Nop>
+nmap     <Space>e [quickfix]
+nnoremap <silent> [quickfix]e :Errors<CR>
+nnoremap <silent> [quickfix]l :lclose<CR>
+nnoremap <silent> [quickfix]c :SyntasticCheck<CR>
+nnoremap <silent> [quickfix]r :SyntasticReset<CR>
+" nnoremap <silent> [quickfix]c :ll<CR>:cc<CR>
+
+" vim-indent-guides
+nnoremap [indent-guide] <Nop>
+nmap     <Space>i [indent-guide]
+nnoremap <silent> [indent-guide]e :IndentGuidesEnable<CR>
+nnoremap <silent> [indent-guide]d :IndentGuidesDisable<CR>
+nnoremap <silent> [indent-guide]t :IndentGuidesToggle<CR>
+
+" normalモードでEnterで改行挿入
+nnoremap <CR> o <Esc>
+
+inoremap <C-BS> <C-W>

@@ -1,0 +1,16 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" Ruby用設定
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! s:rb()
+  autocmd FileType ruby setl iskeyword+=?
+  autocmd FileType ruby setl iskeyword+=!
+  " syntax highlightで遅くなるのを防ぐ？
+  " set re=0
+endfunction
+
+augroup vimrc-rb
+  autocmd!
+  " filetype=rb が設定された場合に関数を呼ぶ
+  autocmd FileType ruby call s:rb()
+augroup END
+
