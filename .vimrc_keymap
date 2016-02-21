@@ -6,24 +6,24 @@ nnoremap j gj
 nnoremap k gk
 nnoremap gj j
 nnoremap gk k
-nnoremap <S-j> }
-nnoremap <S-k> {
+" nnoremap <S-j> }
+" nnoremap <S-k> {
 noremap <S-h> ^
 noremap <S-l> $
 
 " Unite系
-nnoremap <Space><Space> :UniteClose<CR> :<C-u>Unite -start-insert file_rec/async<CR>
+nnoremap <Space><Space> :<C-u>Unite -start-insert file_rec/async<CR>
 nnoremap [unite] <Nop>
 nmap     <Space>u [unite]
-nnoremap <silent> [unite]y  :UniteClose<CR> :Unite history/yank<CR>
-nnoremap <silent> [unite]b  :UniteClose<CR> :Unite -start-insert buffer<CR>
-nnoremap <silent> [unite]t  :UniteClose<CR> :Unite -start-insert tab<CR>
-nnoremap <silent> [unite]m  :UniteClose<CR> :Unite -start-insert file_mru<CR>
-nnoremap <silent> [unite]g  :UniteClose<CR> :Unite -start-insert grep<CR>
-nnoremap <silent> [unite]o  :UniteClose<CR> :Unite -vertical -direction=botright -winwidth=40 -no-quit outline<CR>
-nnoremap <silent> [unite]r  :UniteClose<CR> <Plug>(unite_restart)
-nnoremap <silent> [unite]ri :UniteClose<CR> :Unite ref/ri<CR>
-nnoremap <silent> [unite]cs :UniteClose<CR> :Unite colorscheme -auto-preview<CR>
+nnoremap <silent> [unite]y  :Unite history/yank<CR>
+nnoremap <silent> [unite]b  :Unite -start-insert buffer<CR>
+nnoremap <silent> [unite]t  :Unite -start-insert tab<CR>
+nnoremap <silent> [unite]m  :Unite -start-insert file_mru<CR>
+nnoremap <silent> [unite]g  :Unite -start-insert grep<CR>
+nnoremap <silent> [unite]o  :Unite -vertical -direction=botright -winwidth=40 -no-quit outline<CR>
+nnoremap <silent> [unite]r  <Plug>(unite_restart)
+nnoremap <silent> [unite]ri :Unite ref/ri<CR>
+nnoremap <silent> [unite]cs :Unite colorscheme -auto-preview<CR>
 
 " タブ系
 nnoremap <silent> tn :tabnew<CR>
