@@ -39,9 +39,11 @@ set clipboard=unnamed,autoselect
 " 行番号の表示
 set number
 " 行末のスペースを削除
-autocmd BufWritePre * :%s/\s\+$//ge
-" 保存時にタブをスペースに変換
-autocmd BufWritePre * :%s/\t/  /ge
+if expand("%:t") !~ ".*\.md"
+  autocmd BufWritePre * :%s/\s\+$//ge
+  " 保存時にタブをスペースに変換
+  autocmd BufWritePre * :%s/\t/  /ge
+endif
 
 set list
 set listchars=tab:>.,trail:_,eol:↲,extends:>,precedes:<,nbsp:%

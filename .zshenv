@@ -7,6 +7,7 @@ export PATH="/home/ryuta/Android/android-sdk-linux/tools:$PATH"
 export PATH="/usr/local/go/bin:$PATH"
 
 export GOPATH="$HOME/go"
+export GOROOT=$(go env GOROOT)
 # export PATH="/home/ryuta/.nvm/v0.11.14/bin:$PATH"
 
 eval "$(rbenv init -)"
