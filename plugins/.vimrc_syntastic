@@ -11,6 +11,9 @@ let g:syntastic_check_on_wq              = 0
 " let g:syntastic_mode_map = { 'mode': 'passive' }
 let g:syntastic_mode_map = { 'mode': 'active' }
 let g:syntastic_ruby_checkers=['rubocop', 'mri']
+" Go lang syntastic
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
 highlight SyntasticError guibg=#F9B3F9
 highlight SyntasticWarning guibg=#F9B3F9

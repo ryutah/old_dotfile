@@ -39,6 +39,8 @@ source ~/dotfiles/plugins/.vimrc_vim_indent_guides
 source ~/dotfiles/languages/.vimrc_ruby
 "C++
 source ~/dotfiles/languages/.vimrc_c++
+"GO
+source ~/dotfiles/languages/.vimrc_go
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" キーマップ
