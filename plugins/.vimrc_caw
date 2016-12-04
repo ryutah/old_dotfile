@@ -5,9 +5,8 @@
 " \c でカーソル行をコメントアウト
 " 再度 \c でコメントアウト解除
 " 選択してから複数行の \c も可能
-nmap \c <Plug>(caw:I:toggle)
-vmap \c <Plug>(caw:I:toggle)
-
+nmap \c <Plug>(caw:zeropos:toggle)
+vmap \c <Plug>(caw:zeropos:toggle)
 " \C でコメントアウトの解除
 nmap \C <Plug>(caw:I:uncomment)
 vmap \C <Plug>(caw:I:uncomment)
